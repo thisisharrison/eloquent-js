@@ -11,6 +11,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.15.8",
     "@babel/preset-typescript": "^7.15.0",
+    "@shad02w/cmz": "^1.0.12",
     "@types/jest": "^27.0.2",
     "jest": "^27.3.1",
     "ts-node": "^10.4.0",
