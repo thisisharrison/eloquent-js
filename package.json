@@ -10,13 +10,13 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "@babel/preset-env": "^7.15.8",
-        "@babel/preset-typescript": "^7.15.0",
-        "@shad02w/cmz": "^1.0.12",
-        "@types/jest": "^27.0.2",
-        "jest": "^27.3.1",
-        "ts-node": "^10.4.0",
-        "typescript": "^4.4.4"
+        "@babel/preset-env": "7.16.0",
+        "@babel/preset-typescript": "7.16.0",
+        "@shad02w/cmz": "1.0.12",
+        "@types/jest": "27.0.2",
+        "jest": "27.3.1",
+        "ts-node": "10.4.0",
+        "typescript": "4.4.4"
     },
     "dependencies": {}
 }
