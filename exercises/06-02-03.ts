@@ -35,9 +35,9 @@ export default class Group {
         return this.content.length;
     }
 
-    [Symbol.iterator]() {
-        return new GroupIterator(this);
-    }
+    // [Symbol.iterator]() {
+    //     return new GroupIterator(this);
+    // }
 
     static from(iterable: any[]) {
         let result = new Group();
@@ -45,6 +45,13 @@ export default class Group {
             result.add(item);
         }
         return result;
+    }
+}
+
+// @ts-ignore -- using generator function
+Group.prototype[Symbol.iterator] = function* () {
+    for (let i = 0; i < this.content.length; i++) {
+        yield this.content[i] 
     }
 }
 
