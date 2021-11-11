@@ -15,11 +15,11 @@ function soon(val: number) {
     });
 }
 
-test("all succeed", async () => {
+test("all succeed and preserve order", async () => {
     await Promise_all([soon(1), soon(2), soon(3)]).then((array) => {
         console.log("This should be [1, 2, 3]:", array);
     });
-    expect(console.log).toHaveBeenCalledWith("This should be [1, 2, 3]:", expect.arrayContaining([1, 2, 3]));
+    expect(console.log).toHaveBeenCalledWith("This should be [1, 2, 3]:", [1, 2, 3]);
 });
 
 test("error with `then` `catch`", async () => {

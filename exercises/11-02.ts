@@ -2,11 +2,13 @@
 export function Promise_all<T>(promises: Promise<T>[]) {
     return new Promise((resolve, reject) => {
         const results = [];
-        for (let promise of promises) {
-            promise
+        let pending = promises.length;
+        for (let i = 0; i < promises.length; i++) {
+            promises[i]
                 .then((result) => {
-                    results.push(result);
-                    if (results.length === promises.length) {
+                    results[i] = result;
+                    pending--;
+                    if (pending === 0) {
                         resolve(results);
                     }
                 })
@@ -20,12 +22,12 @@ export function Promise_all<T>(promises: Promise<T>[]) {
 
 export function Promise_all1<T>(promises: Promise<T>[]) {
     return new Promise((resolve, reject) => {
-        const results = [];
-        promises.forEach(async (promise) => {
+        const results = Array.from({ length: promises.length });
+        promises.forEach(async (promise, i) => {
             try {
                 let res = await promise;
-                results.push(res);
-                if (results.length === promises.length) {
+                results[i] = res;
+                if (i === promises.length - 1) {
                     resolve(results);
                 }
             } catch (e) {
