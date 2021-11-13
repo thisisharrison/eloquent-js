@@ -29,15 +29,15 @@ interface Word {
 }
 interface Apply {
     type: "apply";
-    operator: Expr;
+    operator: SyntaxTree;
     args: any[];
 }
-type Expr = Value | Word | Apply;
+type SyntaxTree = Value | Word | Apply;
 
 // parse program expression into syntax tree
 function parseExpression(program: string) {
     program = skipSpace(program);
-    let match: RegExpMatchArray | null, expr: Expr | null;
+    let match: RegExpMatchArray | null, expr: SyntaxTree | null;
     if ((match = /^"([^"]*)"/.exec(program))) {
         // strings
         expr = { type: "value", value: match[1] };
@@ -56,11 +56,11 @@ function parseExpression(program: string) {
 }
 
 interface Parsed {
-    expr: Expr;
+    expr: SyntaxTree;
     rest: string;
 }
 
-function parseApply(expr: Expr, program: string): Parsed {
+function parseApply(expr: SyntaxTree, program: string): Parsed {
     program = skipSpace(program);
     if (program[0] !== "(") {
         return { expr, rest: program };
@@ -119,7 +119,7 @@ globalScope.length = (array: any[]) => array.length;
 
 globalScope.element = (array: any[], index: number) => array[index];
 
-specialForms.if = (args: Expr[], scope: Scope) => {
+specialForms.if = (args: SyntaxTree[], scope: Scope) => {
     if (args.length !== 3) {
         throw new SyntaxError("Wrong number of args to if");
     }
@@ -133,7 +133,7 @@ specialForms.if = (args: Expr[], scope: Scope) => {
     }
 };
 
-specialForms.while = (args: Expr[], scope: Scope) => {
+specialForms.while = (args: SyntaxTree[], scope: Scope) => {
     if (args.length !== 2) {
         throw new SyntaxError("Wrong number of args to while");
     }
@@ -145,7 +145,7 @@ specialForms.while = (args: Expr[], scope: Scope) => {
 };
 
 // executes all its arguments from top to bottom
-specialForms.do = (args: Expr[], scope: Scope) => {
+specialForms.do = (args: SyntaxTree[], scope: Scope) => {
     let returnValue = false;
     for (let arg of args) {
         returnValue = evaluate(arg, scope);
@@ -165,7 +165,7 @@ specialForms.do = (args: Expr[], scope: Scope) => {
  * ]
  * }
  */
-specialForms.define = (args: Expr[], scope: Scope) => {
+specialForms.define = (args: SyntaxTree[], scope: Scope) => {
     if (args.length !== 2 || args[0].type !== "word") {
         throw new SyntaxError("Incorrect use of define");
     }
@@ -176,7 +176,7 @@ specialForms.define = (args: Expr[], scope: Scope) => {
 
 /** 12.04 - SET */
 // Update binding of outer scope if it doesn't already exist in the inner scope
-specialForms.set = (args: Expr[], env: Scope) => {
+specialForms.set = (args: SyntaxTree[], env: Scope) => {
     console.log(`@@@SET`, JSON.stringify(env));
     if (args.length !== 2 || args[0].type !== "word") {
         throw new SyntaxError("Bad use of set");
@@ -201,7 +201,7 @@ specialForms.set = (args: Expr[], env: Scope) => {
 /**
  * fun(a, +(a, 1)) -> function(a) { return a + 1}
  */
-specialForms.fun = (args: Expr[], scope: Scope) => {
+specialForms.fun = (args: SyntaxTree[], scope: Scope) => {
     console.log("@@@TOP ", JSON.stringify(scope));
     if (!args.length) {
         throw new SyntaxError("Functions need a body");
@@ -218,9 +218,13 @@ specialForms.fun = (args: Expr[], scope: Scope) => {
         if (arguments.length !== params.length) {
             throw new TypeError("Wrong number of arguments");
         }
+        // specialForms are initially passed in, so they can evaluate their subforms in that scope
+        // has access to the scope given to its enclosing function
+        // this means prototype of localScope will be the scope in which function was created
+        // makes it possible to access bindings in that scope from the function
+        // this allows closure
         let localScope = Object.create(scope);
         // add argument bindings to localScope
-        // this allows closure
         for (let i = 0; i < arguments.length; i++) {
             localScope[params[i]] = arguments[i];
         }
@@ -229,7 +233,7 @@ specialForms.fun = (args: Expr[], scope: Scope) => {
     };
 };
 
-export function evaluate(expr: Expr, scope: Scope): any {
+export function evaluate(expr: SyntaxTree, scope: Scope): any {
     if (expr.type === "value") {
         // if expression is 100, return 100
         return expr.value;
