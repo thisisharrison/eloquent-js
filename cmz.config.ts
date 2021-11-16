@@ -22,6 +22,10 @@ export default defineConfig({
             name: "upgrade",
             description: "dependencies update and change",
         },
+        {
+            name: "chore",
+            description: "add dependencies or update configs",
+        },
     ],
     // Final commit message reolve to
     resolve: ({ commitType, message }) => `${commitType.name}: ${message}`,
