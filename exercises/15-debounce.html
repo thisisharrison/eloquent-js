@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <textarea>Type something here...</textarea>
+        <p></p>
+        <p></p>
+
+        <script>
+            const textarea = document.querySelector("textarea");
+            const paras = document.querySelectorAll("p");
+            const p = paras[0];
+            const p1 = paras[1];
+        </script>
+
+        <!-- Method 1 -->
+        <!-- Wait until a pause occurs -->
+        <script>
+            let timeout;
+
+            textarea.addEventListener("input", (event) => {
+                // okay to clearTimeout on undefined
+                const content = event.target.value;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    p.innerText = content;
+                }, 500);
+            });
+        </script>
+
+        <!-- Method 2 -->
+        <!-- Space responses so that they are separated by at least a certain length of time -->
+        <script>
+            let scheduled = null;
+            textarea.addEventListener("input", (event) => {
+                const content = event.target.value;
+                if (!scheduled) {
+                    setTimeout(() => {
+                        p1.innerText = content;
+                        scheduled = null;
+                    }, 500);
+                }
+                scheduled = event;
+            });
+        </script>
+    </body>
+</html>
