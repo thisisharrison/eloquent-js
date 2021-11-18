@@ -2,6 +2,7 @@ import { Player } from "./player";
 import { Coin } from "./coin";
 import { Lava } from "./lava";
 import type { Level } from "./level";
+import { Monster } from "./monster";
 
 export function overlap(actor1: Lava | Coin, actor2: Lava | Coin) {
     // any point + size are overlapped
@@ -17,6 +18,7 @@ export const levelChars: Record<string, any> = {
     "#": "wall",
     "+": "lava",
     "@": Player,
+    M: Monster,
     o: Coin,
     "=": Lava,
     "|": Lava,
@@ -63,21 +65,33 @@ export function drawActors(actors: (Player | Coin | Lava)[]) {
     );
 }
 
-const KEYS = ["ArrowLeft", "ArrowRight", "ArrowUp"] as const;
+const KEYS: string[] = ["ArrowLeft", "ArrowRight", "ArrowUp"];
 
 interface TrackKeys {
-    [key: string]: boolean;
+    ArrowLeft: boolean;
+    ArrowRight: boolean;
+    ArrowUp: boolean;
+    unregister: () => void;
 }
 
-function trackKeys(keys: typeof KEYS): TrackKeys {
+function trackKeys(keys: string[]): TrackKeys {
     let down = Object.create(null);
     function handler(event: KeyboardEvent) {
-        // keydown = true, keyup = false
-        down[event.key] = event.type === "keydown";
-        event.preventDefault();
+        if (keys.includes(event.key)) {
+            // keydown = true, keyup = false
+            down[event.key] = event.type === "keydown";
+            event.preventDefault();
+        }
     }
     window.addEventListener("keydown", handler);
     window.addEventListener("keyup", handler);
+
+    // add a function to this object for window to unregister these event handlers
+    down.unregister = () => {
+        window.removeEventListener("keydown", handler);
+        window.removeEventListener("keyup", handler);
+    };
+
     return down;
 }
 

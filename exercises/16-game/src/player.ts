@@ -1,5 +1,4 @@
 import { Vec } from "./vec";
-import { elt } from "./shared";
 import { State } from "./state";
 
 const PLAYERXSPEED = 7;

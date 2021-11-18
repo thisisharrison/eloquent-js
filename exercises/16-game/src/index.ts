@@ -32,12 +32,32 @@ function runAnimation(frameFunc: (timeStep: number) => boolean) {
     requestAnimationFrame(frame);
 }
 
-function runLevel(level: Level, Display: any) {
+function runLevel(level: Level, Display: any, lives: number) {
     let display = new Display(document.body, level);
     let state = State.start(level);
     let ending = 1;
+    let running: "yes" | "no" | "pausing" = "yes";
     return new Promise((resolve) => {
-        runAnimation((time) => {
+        function escHandler(event: KeyboardEvent) {
+            if (event.key !== "Escape") return;
+            event.preventDefault();
+            if (running === "no") {
+                running = "yes";
+                runAnimation(frame);
+            } else if (running === "yes") {
+                running = "pausing";
+            } else {
+                running = "yes";
+            }
+        }
+
+        window.addEventListener("keydown", escHandler);
+
+        function frame(time: number) {
+            if (running === "pausing") {
+                running = "no";
+                return false;
+            }
             state = state.update(time, arrowKeys);
             display.syncState(state);
             if (state.status === "playing") {
@@ -47,21 +67,32 @@ function runLevel(level: Level, Display: any) {
                 return true;
             } else {
                 display.clear();
+                window.removeEventListener("keydown", escHandler);
+                if (lives === 0) arrowKeys.unregister();
                 resolve(state.status);
                 return false;
             }
-        });
+        }
+        runAnimation(frame);
     });
 }
 
 async function runGame(plans: string[], Display: any) {
+    let lives = 3;
     for (let level = 0; level < plans.length; ) {
-        let status = await runLevel(new Level(plans[level]), Display);
+        console.log(`Level ${level + 1}, lives: ${lives}`);
+        let status = await runLevel(new Level(plans[level]), Display, lives);
         if (status === "won") {
             level++;
+        } else {
+            lives--;
         }
     }
-    console.log("You've won!");
+    if (lives > 0) {
+        console.log("You've won!");
+    } else {
+        console.log("Game over");
+    }
 }
 
 runGame(GAME_LEVELS, DOMDisplay);
