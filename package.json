@@ -9,6 +9,10 @@
     },
     "author": "",
     "license": "ISC",
+    "private": true,
+    "workspaces": [
+        "exercises/16"
+    ],
     "devDependencies": {
         "@babel/preset-env": "7.16.0",
         "@babel/preset-typescript": "7.16.0",
