@@ -3,6 +3,7 @@ import { Level } from "./level";
 import { DOMDisplay } from "./dom-display";
 import { State } from "./state";
 import { arrowKeys } from "./shared";
+import CanvasDisplay from "./CanvasDisplay";
 
 /**
  * . empty space
@@ -95,4 +96,5 @@ async function runGame(plans: string[], Display: any) {
     }
 }
 
-runGame(GAME_LEVELS, DOMDisplay);
+// runGame(GAME_LEVELS, DOMDisplay);
+runGame(GAME_LEVELS, CanvasDisplay);

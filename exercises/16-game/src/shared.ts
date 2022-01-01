@@ -96,3 +96,15 @@ function trackKeys(keys: string[]): TrackKeys {
 }
 
 export const arrowKeys = trackKeys(KEYS);
+
+export const playerXOverlap = 4;
+
+export function flipHorizontally(context: CanvasRenderingContext2D | null, center: number) {
+    if (!context) return;
+    // translate to the right
+    context.translate(center, 0);
+    // flip to the other side (but wrong position)
+    context.scale(-1, 1);
+    // restore position
+    context.translate(-center, 0);
+}
