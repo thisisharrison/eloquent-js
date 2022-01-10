@@ -50,11 +50,18 @@ document.addEventListener("DOMContentLoaded", () => {
             const row = []
             for (let w = 0; w < width; w++) {
                 const prev = pos(w, h)
-                const count = countNeighbors(w, h)
-                let checked = count < 2 || count > 3 ? false : true
-                // If cell was dead
-                if (!prev && count === 3) {
-                    checked = true
+                const neighbors = countNeighbors(w, h)
+                let checked = prev
+                if (prev) {
+                    // Any live cell with fewer than two or more than three live neighbors dies.
+                    checked = neighbors < 2 || neighbors > 3 ? false : true
+                    // Any live cell with two or three live neighbors lives on to the next generation.
+                    checked = neighbors == 2 || neighbors == 3 ? true : false
+                } else {
+                    // Any dead cell with exactly three live neighbors becomes a live cell.
+                    if (neighbors === 3) {
+                        checked = true
+                    }
                 }
                 row.push(checked)
             }
