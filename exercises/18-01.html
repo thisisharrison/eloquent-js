@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>18.01</title>
+    </head>
+    <body>
+        <script>
+            // Using promises
+            const Ch18URL = "https://eloquentjavascript.net/author";
+
+            fetch(Ch18URL, { headers: { Accept: "text/plain" } })
+                .then((res) => res.text())
+                .then((text) => console.log(`text`, text));
+
+            // Note that Accept or accept both works. Headers key are case insensitive
+            fetch(Ch18URL, { headers: { accept: "text/html" } })
+                .then((res) => res.text())
+                .then((text) => console.log(`html`, text));
+
+            fetch(Ch18URL, { headers: { Accept: "application/json" } })
+                .then((res) => res.json())
+                .then((json) => console.log(`json`, json));
+
+            fetch(Ch18URL, { headers: { Accept: "application/rainbows+unicorns" } }).then((res) => console.log(`unicorn`, res.status));
+
+            // Textbook using async await
+            const url = "https://eloquentjavascript.net/author";
+            const types = ["text/plain", "text/html", "application/json", "application/rainbows+unicorns"];
+
+            async function showTypes() {
+                for (let type of types) {
+                    let resp = await fetch(url, { headers: { accept: type } });
+                    console.log(`${type}: ${await resp.text()}\n`);
+                }
+            }
+
+            showTypes();
+        </script>
+    </body>
+</html>

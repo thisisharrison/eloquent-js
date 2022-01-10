@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>18-02</title>
+    </head>
+    <body>
+        <textarea id="code">return "hi";</textarea>
+        <button id="button">Run</button>
+        <pre id="output"></pre>
+
+        <script>
+            const button = document.querySelector("#button");
+            button.addEventListener("click", () => {
+                const code = document.querySelector("#code");
+                try {
+                    const ret = new Function(code.value)();
+                    const output = document.querySelector("#output");
+                    output.innerText = ret;
+                } catch (e) {
+                    output.innerText = "Error: " + e;
+                }
+            });
+        </script>
+    </body>
+</html>
