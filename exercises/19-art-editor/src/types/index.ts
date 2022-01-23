@@ -35,3 +35,7 @@ type ToolFn = (position: Position, state: State, dispatch: Dispatch) => Callback
 export type Tools = {
     [key: string]: ToolFn;
 };
+
+export abstract class Component {
+    abstract syncState(state: State): void;
+}

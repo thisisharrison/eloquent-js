@@ -1,8 +1,8 @@
 import { Utils } from "../../utils";
-import { Config, State } from "../../types";
+import { Component, Config, State } from "../../types";
 import PictureCanvas from "../PictureCanvas";
 
-export default class PixelEditor {
+export default class PixelEditor implements Component {
     state: State;
     canvas: PictureCanvas;
     controls: any;

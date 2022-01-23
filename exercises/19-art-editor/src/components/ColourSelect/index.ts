@@ -1,7 +1,7 @@
-import { Dispatch, State } from "../../types";
+import { Component, Dispatch, State } from "../../types";
 import { Utils } from "../../utils";
 
-export default class ColourSelect {
+export default class ColourSelect implements Component {
     input: HTMLInputElement;
     dom: HTMLLabelElement;
 

@@ -1,7 +1,7 @@
 import { Utils } from "../../utils";
-import { Dispatch, State, Tools } from "../../types";
+import { Component, Dispatch, State, Tools } from "../../types";
 
-export default class ToolSelect {
+export default class ToolSelect implements Component {
     select: HTMLSelectElement;
     dom: HTMLLabelElement;
 
