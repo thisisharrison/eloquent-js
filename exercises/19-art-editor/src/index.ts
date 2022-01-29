@@ -1,6 +1,6 @@
 import ColourSelect from "./components/ColourSelect";
 import Picture from "./components/Picture";
-import PixelEditor from "./components/PixelEditor/indext";
+import PixelEditor from "./components/PixelEditor";
 import { draw, fill, pick, rectangle } from "./components/tools";
 import ToolSelect from "./components/ToolSelect";
 import { State, Tools } from "./types";
