@@ -17,6 +17,9 @@ export default class Picture {
     }
 
     pixel(x: number, y: number) {
+        // Can express pixels in 1D array
+        console.log("x + y * this.width", x + y * this.width); // 3, 4 = 3 + 4 * 60 = 243
+        console.log("this.width * this.height", this.width * this.height); // 1800
         return this.pixels[x + y * this.width];
     }
 

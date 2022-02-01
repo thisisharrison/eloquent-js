@@ -3,7 +3,7 @@ import Picture from "./components/Picture";
 import PixelEditor from "./components/PixelEditor";
 import { draw, fill, pick, rectangle } from "./components/tools";
 import ToolSelect from "./components/ToolSelect";
-import { State, Tools } from "./types";
+import { Controls, State, Tools } from "./types";
 import { Utils } from "./utils";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     let app = new PixelEditor(state, {
         tools: { draw, fill, rectangle, pick } as Tools,
-        controls: [ToolSelect, ColourSelect],
+        controls: [ToolSelect, ColourSelect] as unknown as Controls,
         dispatch(action) {
             state = Utils.updateState(state, action);
             app.syncState(state);

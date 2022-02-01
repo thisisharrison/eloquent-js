@@ -1,11 +1,11 @@
 import { Utils } from "../../utils";
-import { Component, Config, State } from "../../types";
+import { Component, Config, Controls, State } from "../../types";
 import PictureCanvas from "../PictureCanvas";
 
 export default class PixelEditor implements Component {
     state: State;
     canvas: PictureCanvas;
-    controls: any;
+    controls: Controls;
     dom: HTMLDivElement;
 
     constructor(state: State, config: Config) {

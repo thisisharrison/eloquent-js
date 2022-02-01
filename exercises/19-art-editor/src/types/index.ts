@@ -1,4 +1,6 @@
+import ColourSelect from "../components/ColourSelect";
 import Picture from "../components/Picture";
+import ToolSelect from "../components/ToolSelect";
 
 export interface State {
     picture: Picture;
@@ -26,7 +28,7 @@ export type Callback = (pos: Position, state?: State) => Callback | undefined;
 
 export interface Config {
     tools: Tools;
-    controls: any;
+    controls: Controls;
     dispatch: Dispatch;
 }
 
@@ -39,3 +41,5 @@ export type Tools = {
 export abstract class Component {
     abstract syncState(state: State): void;
 }
+
+export type Controls = (ToolSelect | ColourSelect)[];
