@@ -30,10 +30,10 @@ class CanvasDisplay {
         };
 
         this.sprites = document.createElement("img");
-        this.sprites.src = require("./img/sprites.png");
+        this.sprites.src = require("../../img/sprites.png");
 
         this.playerSprite = document.createElement("img");
-        this.playerSprite.src = require("./img/player.png");
+        this.playerSprite.src = require("../../img/player.png");
     }
 
     clear() {
