@@ -11,7 +11,9 @@
     "license": "ISC",
     "private": true,
     "workspaces": [
-        "exercises/16"
+        "exercises/16-*",
+        "exercises/19-*",
+        "exercises/20-*"
     ],
     "devDependencies": {
         "@babel/preset-env": "7.16.7",
